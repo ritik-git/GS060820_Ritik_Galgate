@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { Suspense, lazy } from "react";
+import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
+
+import AppLayout from "./components/layout/AppLayout";
+import Loader from "./components/common/Loader";
+import InternetError from "./components/InternetError";
+
+
+import "./App.css";
+
+const SignInPage = lazy(()=>import("./pages/auth/Signin"))
+const StoresPage = lazy(() => import("./pages/StorePage"));
+const SKUsPage = lazy(() => import("./pages/SKUsPage"));
+const PlanningPage = lazy(() => import("./pages/PlanningPage"));
+const ChartsPage = lazy(() => import("./pages/ChartsPage"));
 
 function App() {
-  const [count, setCount] = useState(0)
+  const isAuthenticated = localStorage.getItem("auth");
+  console.log("🚀 ~ App ~ isAuthenticated:", isAuthenticated)
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <InternetError />
+      <HashRouter>
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/signin" element={<SignInPage />} />
+            <Route
+              path="/*"
+              element={isAuthenticated ? <AppLayout /> : <Navigate to="/signin" replace />}
+            >
+             {/* <Route
+              path="/*"
+              element={ <AppLayout  />}
+            > */}
+              <Route index element={<Navigate to="/stores" replace />} />
+              <Route path="stores" element={<StoresPage />} />
+              <Route path="skus" element={<SKUsPage />} />
+              <Route path="planning" element={<PlanningPage />} />
+              <Route path="charts" element={<ChartsPage />} />
+            </Route>
+          </Routes>
+        </Suspense>
+      </HashRouter>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
