@@ -1,4 +1,4 @@
-import  { Suspense, lazy } from "react";
+import  { Suspense, lazy, useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import AppLayout from "./components/layout/AppLayout";
@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "./App.css";
 import { RootState } from "./redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const SignInPage = lazy(()=>import("./pages/auth/Signin"))
 const StoresPage = lazy(() => import("./pages/StorePage"));
@@ -19,9 +19,11 @@ const ChartsPage = lazy(() => import("./pages/ChartsPage"));
 
 function App() {
   const isAuthenticated = useSelector((state: RootState) => state.auth.email);
-
+  const dispatch = useDispatch()
   console.log("🚀 ~ App ~ isAuthenticated:", isAuthenticated)
-
+  //  useEffect(()=>{
+  //   dispatch()
+  //  },[])
 
   return (
     <>

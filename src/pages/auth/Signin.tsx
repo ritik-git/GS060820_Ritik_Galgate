@@ -14,13 +14,15 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import logo from "../../assets/Gsynergy Logo V2 Long Description.svg";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/authSlice";
 
 const SignIn: React.FC = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [toastOpen, setToastOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState("");
-
+  const dispatch = useDispatch()
   const handleTogglePassword = () => setShowPassword((prev) => !prev);
 
   const formik = useFormik({
@@ -37,6 +39,7 @@ const SignIn: React.FC = () => {
 
       if (values.password === "1234" && values.email === "ritikgalgate38@gmail.com") {
          localStorage.setItem("auth", values.email);
+         dispatch(login(values.email));
          setTimeout(()=>{
         navigate("/stores");
         setToastMessage("Logged in successfully!");
@@ -64,8 +67,8 @@ const SignIn: React.FC = () => {
 
         <form
           onSubmit={(e) => {
-            e.preventDefault(); // Prevent default form submission
-            formik.handleSubmit(); // Call Formik's submit handler
+            e.preventDefault(); 
+            formik.handleSubmit();
           }}
         >
           <TextField
