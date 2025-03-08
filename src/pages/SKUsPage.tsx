@@ -1,77 +1,126 @@
-import { useState } from "react";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { addSKU, removeSKU } from "../redux/skuSlice";
-import { SKU } from "../interfaces/SKU";
-import { v4 as uuidv4 } from "uuid";
-import { TextField, Button, Card, CardContent, Typography, List, ListItem, ListItemText, IconButton, Box } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import React, { useState, lazy, Suspense } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { addSku, removeSku, updateSku } from "../redux/skuSlice";
+import { 
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, 
+  IconButton, Button, CircularProgress, Pagination 
+} from "@mui/material";
+import { Delete, Edit } from "@mui/icons-material";
+import { Sku } from "../interfaces/SKU";
+import { toast } from "react-toastify";
 
-const SKUsPage = () => {
-  const dispatch = useAppDispatch();
-  const skus = useAppSelector(state => state.skus.skus);
-  const [skuName, setSkuName] = useState("");
-  const [price, setPrice] = useState("");
-  const [cost, setCost] = useState("");
 
-  const handleAddSKU = () => {
-    if (!skuName.trim() || !price || !cost) return;
-    const newSKU: SKU = {
-      id: uuidv4(),
-      name: skuName,
-      price: parseFloat(price),
-      cost: parseFloat(cost),
-    };
-    dispatch(addSKU(newSKU));
-    setSkuName("");
-    setPrice("");
-    setCost("");
+const SkuModal = lazy(() => import("../components/SkuModal"));
+
+const SKUsPage: React.FC = () => {
+  const dispatch = useDispatch();
+  const skus = useSelector((state: RootState) => state.skus.skus);
+
+  const [page, setPage] = useState(1);
+  const rowsPerPage = 10;
+  const totalPages = Math.ceil(skus.length / rowsPerPage);
+
+
+  const [open, setOpen] = useState(false);
+  const [currentSku, setCurrentSku] = useState<Sku | null>(null);
+
+  const handleAdd = () => {
+    setCurrentSku({ ID: `SK${Math.floor(Math.random() * 100000)}`, Label: "", Class: "", Department: "", Price: 0, Cost: 0 });
+    setOpen(true);
   };
 
+  const handleEdit = (sku: Sku) => {
+    setCurrentSku(sku);
+    setOpen(true);
+ 
+  };
+
+  const handleSave = () => {
+    if (currentSku) {
+      const existingSku = skus.find(sku => sku.ID === currentSku.ID);
+      if (existingSku) {
+        dispatch(updateSku(currentSku));
+        toast.success('Sku updated successfully')
+      } else {
+        dispatch(addSku(currentSku));
+        toast.success('Sku added successfully')
+      }
+      setOpen(false);
+    }
+  };
+  
+
+  // Handle page change
+  const handleChangePage = (_event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
+  };
+
+  // Paginate data
+  const paginatedSkus = skus.slice((page - 1) * rowsPerPage, page * rowsPerPage);
+
   return (
-    <Box sx={{ maxWidth: 500, mx: "auto", mt: 4, p: 2 }}>
-      <Typography variant="h4" gutterBottom>SKUs</Typography>
-      <Card sx={{ p: 2, mb: 2 }}>
-        <CardContent>
-          <TextField
-            fullWidth
-            label="SKU Name"
-            value={skuName}
-            onChange={(e) => setSkuName(e.target.value)}
-            margin="normal"
+    <div>
+      <Button variant="contained" sx={{ mb: "10px" }} onClick={handleAdd}>Add SKU</Button>
+      
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Label</TableCell>
+              <TableCell>Class</TableCell>
+              <TableCell>Department</TableCell>
+              <TableCell>Price</TableCell>
+              <TableCell>Cost</TableCell>
+              <TableCell>Actions</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {paginatedSkus.map((sku) => (
+              <TableRow key={sku.ID}>
+                <TableCell>{sku.Label}</TableCell>
+                <TableCell>{sku.Class}</TableCell>
+                <TableCell>{sku.Department}</TableCell>
+                <TableCell>${sku.Price.toFixed(2)}</TableCell>
+                <TableCell>${sku.Cost.toFixed(2)}</TableCell>
+                <TableCell>
+                  <IconButton color="error" onClick={() => dispatch(removeSku(sku.ID))}>
+                    <Delete />
+                  </IconButton>
+                  <IconButton color="primary" onClick={() => handleEdit(sku)}>
+                    <Edit />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {/* Pagination Component */}
+      {totalPages > 1 && (
+        <Pagination
+          count={totalPages}
+          page={page}
+          onChange={handleChangePage}
+          color="primary"
+          sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}
+        />
+      )}
+
+      {/* Lazy Loaded Modal */}
+      <Suspense fallback={<CircularProgress />}>
+        {open && (
+          <SkuModal 
+            open={open} 
+            onClose={() => setOpen(false)} 
+            sku={currentSku} 
+            setSku={setCurrentSku} 
+            onSave={handleSave} 
           />
-          <TextField
-            fullWidth
-            label="Price"
-            type="number"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            margin="normal"
-          />
-          <TextField
-            fullWidth
-            label="Cost"
-            type="number"
-            value={cost}
-            onChange={(e) => setCost(e.target.value)}
-            margin="normal"
-          />
-          <Button variant="contained" color="primary" onClick={handleAddSKU} sx={{ mt: 2 }}>
-            Add SKU
-          </Button>
-        </CardContent>
-      </Card>
-      <List>
-        {skus.map((sku) => (
-          <ListItem key={sku.id} secondaryAction={
-            <IconButton edge="end" color="error" onClick={() => dispatch(removeSKU(sku.id))}>
-              <DeleteIcon />
-            </IconButton>
-          }>
-            <ListItemText primary={sku.name} secondary={`Price: $${sku.price}, Cost: $${sku.cost}`} />
-          </ListItem>
-        ))}
-      </List>
-    </Box>
+        )}
+      </Suspense>
+    </div>
   );
 };
 

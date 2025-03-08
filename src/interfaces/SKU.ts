@@ -1,7 +1,8 @@
-export interface SKU {
-    id: string;
-    name: string;
-    price: number;
-    cost: number;
-  }
-  
+export interface Sku {
+    ID: string;
+  Label: string;
+  Class: string;
+  Department: string;
+  Price: number;
+  Cost: number;
+}

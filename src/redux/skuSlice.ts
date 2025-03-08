@@ -1,26 +1,36 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SKU } from "../interfaces/SKU";
 
-interface SKUState {
-  skus: SKU[];
+import skusData from "../assets/skus.json";
+import { Sku } from "../interfaces/SKU";
+
+
+interface SkuState {
+  skus: Sku[];
 }
 
-const initialState: SKUState = {
-  skus: [],
+const initialState: SkuState = {
+  skus: skusData
+  // skus: [],
 };
 
 const skuSlice = createSlice({
-  name: "skus",
+  name: "sku",
   initialState,
   reducers: {
-    addSKU: (state, action: PayloadAction<SKU>) => {
+    addSku: (state, action: PayloadAction<Sku>) => {
       state.skus.push(action.payload);
     },
-    removeSKU: (state, action: PayloadAction<string>) => {
-      state.skus = state.skus.filter(sku => sku.id !== action.payload);
+    removeSku: (state, action: PayloadAction<string>) => {
+      state.skus = state.skus.filter(sku => sku.ID !== action.payload);
     },
-  },
+    updateSku: (state, action: PayloadAction<Sku>) => {
+      const index = state.skus.findIndex(sku => sku.ID === action.payload.ID);
+      if (index !== -1) {
+        state.skus[index] = action.payload;
+      }
+    }
+  }
 });
 
-export const { addSKU, removeSKU } = skuSlice.actions;
+export const { addSku, removeSku, updateSku } = skuSlice.actions;
 export default skuSlice.reducer;

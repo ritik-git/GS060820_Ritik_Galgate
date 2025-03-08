@@ -12,7 +12,7 @@ import "./App.css";
 const SignInPage = lazy(()=>import("./pages/auth/Signin"))
 const StoresPage = lazy(() => import("./pages/StorePage"));
 const SKUsPage = lazy(() => import("./pages/SKUsPage"));
-const PlanningPage = lazy(() => import("./pages/PlanningPage"));
+const PlanningPage = lazy(() => import("./pages/PlanningTable"));
 const ChartsPage = lazy(() => import("./pages/ChartsPage"));
 
 function App() {

@@ -98,6 +98,7 @@ const CsvTable = () => {
             {openModal && (
                 <Suspense fallback={<Loader />}>
                     <StoreModal open={openModal} handleClose={handleClose} storeData={editStore} />
+                    
                 </Suspense>
             )}
         </Box>
