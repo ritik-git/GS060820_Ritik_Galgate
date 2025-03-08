@@ -9,7 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "./App.css";
 import { RootState } from "./redux/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const SignInPage = lazy(()=>import("./pages/auth/Signin"))
 const StoresPage = lazy(() => import("./pages/StorePage"));
@@ -19,7 +19,7 @@ const ChartsPage = lazy(() => import("./pages/ChartsPage"));
 
 function App() {
   const isAuthenticated = useSelector((state: RootState) => state.auth.email);
-  const dispatch = useDispatch()
+ 
   console.log("🚀 ~ App ~ isAuthenticated:", isAuthenticated)
   //  useEffect(()=>{
   //   dispatch()
