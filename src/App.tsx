@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from "react";
+import  { Suspense, lazy } from "react";
 import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import AppLayout from "./components/layout/AppLayout";

@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, Toolbar } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
-const DRAWER_WIDTH = 240;
+// const DRAWER_WIDTH = 240;
 
 const MainContent: React.FC = () => {
   return (

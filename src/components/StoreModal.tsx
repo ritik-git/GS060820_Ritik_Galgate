@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+
 import { useAppDispatch } from "../redux/hooks";
 import { addStore, updateStore } from "../redux/storeSlice";
-import { Store, StoreModalProps } from "../interfaces/Storetype";
+import { StoreModalProps } from "../interfaces/Storetype";
 import { Box, Button, Modal, TextField, Typography } from "@mui/material";
 import { v4 as uuidv4 } from "uuid";
 import { Formik, Form, Field } from "formik";

@@ -1,6 +1,6 @@
 import { useState, Suspense, lazy } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, IconButton, Button } from "@mui/material";
+import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button } from "@mui/material";
 import { Delete, DragHandle, Edit } from "@mui/icons-material";
 
 import { useAppDispatch, useAppSelector } from "../redux/hooks";

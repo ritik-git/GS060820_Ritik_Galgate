@@ -84,7 +84,7 @@
 
 // export default PlanningTable;
 
-import React from 'react'
+
 
 function PlanningTable() {
   return (
