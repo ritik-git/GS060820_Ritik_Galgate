@@ -8,6 +8,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; 
 
 import "./App.css";
+import { RootState } from "./redux/store";
+import { useSelector } from "react-redux";
 
 const SignInPage = lazy(()=>import("./pages/auth/Signin"))
 const StoresPage = lazy(() => import("./pages/StorePage"));
@@ -16,8 +18,10 @@ const PlanningPage = lazy(() => import("./pages/PlanningTable"));
 const ChartsPage = lazy(() => import("./pages/ChartsPage"));
 
 function App() {
-  const isAuthenticated = localStorage.getItem("auth");
+  const isAuthenticated = useSelector((state: RootState) => state.auth.email);
+
   console.log("🚀 ~ App ~ isAuthenticated:", isAuthenticated)
+
 
   return (
     <>

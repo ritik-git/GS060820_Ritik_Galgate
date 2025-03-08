@@ -42,3 +42,21 @@
 .read-the-docs {
   color: #888;
 }
+
+
+.chart-container {
+  width: 90%;
+  margin: auto;
+  padding: 20px;
+  background: linear-gradient(180deg, #333, #222);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.dropdown {
+  margin-bottom: 10px;
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}

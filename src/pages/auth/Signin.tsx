@@ -36,12 +36,11 @@ const SignIn: React.FC = () => {
       setSubmitting(true);
 
       if (values.password === "1234" && values.email === "ritikgalgate38@gmail.com") {
-       await localStorage.setItem("auth", values.email);
+         localStorage.setItem("auth", values.email);
          setTimeout(()=>{
         navigate("/stores");
         setToastMessage("Logged in successfully!");
        },1000)
-       
       } else {
         setToastMessage("Invalid email or password!");
         setToastOpen(true);
