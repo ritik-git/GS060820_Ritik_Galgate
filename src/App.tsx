@@ -1,5 +1,5 @@
 import  { Suspense, lazy } from "react";
-import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import AppLayout from "./components/layout/AppLayout";
 import Loader from "./components/common/Loader";
@@ -23,7 +23,7 @@ function App() {
     <>
     <ToastContainer position="top-right" autoClose={3000} />
       <InternetError />
-      <HashRouter>
+      <BrowserRouter>
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/signin" element={<SignInPage />} />
@@ -43,7 +43,7 @@ function App() {
             </Route>
           </Routes>
         </Suspense>
-      </HashRouter>
+      </BrowserRouter>
     </>
   );
 }
