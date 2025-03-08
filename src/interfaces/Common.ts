@@ -11,3 +11,9 @@ export interface PaginationProps {
     data: Sku[];
     rowsPerPage?: number;
   }
+
+ export interface ChartData {
+    week: string;
+    gmDollars: number;
+    gmPercent: number;
+  }

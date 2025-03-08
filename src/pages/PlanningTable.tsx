@@ -27,13 +27,6 @@ const initialRowData: RowData[] = [
   { store: "Miami Breeze Apparel", sku: "Lace-Up Combat Boots", week1SalesUnits: 199, week1SalesDollars: 4973.01, week1GMDollars: 31.95, week1GMPercent: 0.6, week2SalesUnits: 14, week2SalesDollars: 349.86, week2GMDollars: 31.95, week2GMPercent: 0.6 },
 ];
 
-const getColor = (value?: number) => {
-  if (value === undefined) return {};
-  if (value >= 40) return { backgroundColor: "green", color: "white" };
-  if (value >= 10) return { backgroundColor: "yellow", color: "black" };
-  if (value > 5) return { backgroundColor: "orange", color: "black" };
-  return { backgroundColor: "red", color: "white" };
-};
 
 const columnDefs: (ColDef<RowData> | ColGroupDef<RowData>)[] = [
   { field: "store", headerName: "Store", pinned: "left", flex: 1 },

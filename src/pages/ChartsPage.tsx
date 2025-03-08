@@ -1,12 +1,9 @@
 import React, { useState } from "react";
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, ComposedChart } from "recharts";
+import {  Line, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, ComposedChart } from "recharts";
+import { ChartData } from "../interfaces/Common";
 
-// Define data type
-interface ChartData {
-  week: string;
-  gmDollars: number;
-  gmPercent: number;
-}
+
+
 
 // Generate mock data
 const data: ChartData[] = Array.from({ length: 52 }, (_, i) => ({
