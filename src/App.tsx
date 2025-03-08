@@ -4,7 +4,8 @@ import { HashRouter, Routes, Route, Navigate } from "react-router-dom";
 import AppLayout from "./components/layout/AppLayout";
 import Loader from "./components/common/Loader";
 import InternetError from "./components/InternetError";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; 
 
 import "./App.css";
 
@@ -20,6 +21,7 @@ function App() {
 
   return (
     <>
+    <ToastContainer position="top-right" autoClose={3000} />
       <InternetError />
       <HashRouter>
         <Suspense fallback={<Loader />}>

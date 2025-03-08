@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Store } from "../interfaces/Storetype";
-
+import jsonData from "../assets/stores.json";
 
 
 interface StoreState {
@@ -10,7 +10,7 @@ interface StoreState {
 }
 
 const initialState: StoreState = {
-    stores: [],
+    stores: jsonData,
     loading: false,
     error: null,
 };
